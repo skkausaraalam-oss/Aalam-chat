@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kausar Private Hub</title>
+    
+    <meta name="theme-color" content="#111b21">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link class="ui-styles" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* BASE DYNAMIC THEME CLASSES */
+        body.dark-mode { background-color: #111b21; color: #e9edef; font-family: Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif; }
+        body.dark-mode .bg-panel-header { background-color: #202c33; }
+        body.dark-mode .bg-chat-area { background-color: #222e35; }
+        body.dark-mode .bg-sidebar { background-color: #111b21; }
+        body.dark-mode .bg-input-bar { background-color: #202c33; }
+        body.dark-mode .bg-input-field { background-color: #2a3942; }
+        body.dark-mode .border-custom { border-color: #222e35; }
+        body.dark-mode .border-field { border-color: #374248; }
+        body.dark-mode .text-main { color: #e9edef; }
+        body.dark-mode .text-sub { color: #8696a0; }
+        body.dark-mode .chat-bubble-recv { background-color: #202c33; color: #e9edef; }
+        body.dark-mode .dropdown-bg { background-color: #233138; border-color: #374248; }
+        body.dark-mode .dropdown-hover:hover { background-color: #182229; }
+
+        body.day-mode { background-color: #efeae2; color: #111b21; font-family: Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif; }
+        body.day-mode .bg-panel-header { background-color: #f0f2f5; }
+        body.day-mode .bg-chat-area { background-color: #efeae2; }
+        body.day-mode .bg-sidebar { background-color: #ffffff; }
+        body.day-mode .bg-input-bar { background-color: #f0f2f5; }
+        body.day-mode .bg-input-field { background-color: #ffffff; }
+        body.day-mode .border-custom { border-color: #e9edef; }
+        body.day-mode .border-field { border-color: #e1e9eb; }
+        body.day-mode .text-main { color: #111b21; }
+        body.day-mode .text-sub { color: #667781; }
+        body.day-mode .chat-bubble-recv { background-color: #ffffff; color: #111b21; }
+        body.day-mode .dropdown-bg { background-color: #ffffff; border-color: #e9edef; shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        body.day-mode .dropdown-hover:hover { background-color: #f0f2f5; }
+
+        body.blue-mode { background-color: #0f172a; color: #f8fafc; font-family: Segoe UI, sans-serif; }
+        body.blue-mode .bg-panel-header { background-color: #1e293b; }
+        body.blue-mode .bg-chat-area { background-color: #0f172a; }
+        body.blue-mode .bg-sidebar { background-color: #1e293b; }
+        body.blue-mode .bg-input-bar { background-color: #1e293b; }
+        body.blue-mode .bg-input-field { background-color: #334155; }
+        body.blue-mode .border-custom { border-color: #334155; }
+        body.blue-mode .border-field { border-color: #475569; }
+        body.blue-mode .text-main { color: #f8fafc; }
+        body.blue-mode .text-sub { color: #94a3b8; }
+        body.blue-mode .chat-bubble-recv { background-color: #1e293b; color: #f8fafc; }
+        body.blue-mode .dropdown-bg { background-color: #1e293b; border-color: #334155; }
+        body.blue-mode .dropdown-hover:hover { background-color: #334155; }
+
+        body.green-mode { background-color: #052e16; color: #f0fdf4; font-family: Segoe UI, sans-serif; }
+        body.green-mode .bg-panel-header { background-color: #14532d; }
+        body.green-mode .bg-chat-area { background-color: #022c22; }
+        body.green-mode .bg-sidebar { background-color: #14532d; }
+        body.green-mode .bg-input-bar { background-color: #14532d; }
+        body.green-mode .bg-input-field { background-color: #166534; }
+        body.green-mode .border-custom { border-color: #166534; }
+        body.green-mode .border-field { border-color: #15803d; }
+        body.green-mode .text-main { color: #f0fdf4; }
+        body.green-mode .text-sub { color: #86efac; }
+        body.green-mode .chat-bubble-recv { background-color: #14532d; color: #f0fdf4; }
+        body.green-mode .dropdown-bg { background-color: #14532d; border-color: #166534; }
+        body.green-mode .dropdown-hover:hover { background-color: #166534; }
+
+        .whatsapp-green { background-color: #00a884; }
+        
+        /* WALLPAPER LAYER OVERLAY */
+        .chat-bg { 
+            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); 
+            opacity: 0.06; 
+            position: absolute; 
+            inset: 0; 
+            z-index: 0;
+            background-size: auto;
+            background-repeat: repeat;
+        }
+        
+        .custom-wallpaper-active .chat-bg {
+            opacity: 1 !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background-color: #374248; border-radius: 3px; }
+        .dynamic-height { height: 100vh; height: -webkit-fill-available; }
+        .user-select-none { -webkit-user-select: none; user-select: none; }
+        .status-ring { border: 2px dashed #00a884; padding: 2px; }
+    </style>
+</head>
+<body class="dark-mode dynamic-height flex items-center justify-center overflow-hidden fixed inset-0">
+
+    <div id="auth-container" class="w-full max-w-md p-6 bg-[#222e35] rounded-lg shadow-2xl border border-[#374248] z-10 m-4">
+        <div class="text-center mb-6">
+            <div class="w-16 h-16 whatsapp-green text-white rounded-full flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Kausar Private Hub</h2>
+            <p class="text-sm text-[#8696a0] mt-1">Private Encrypted Chat System</p>
+        </div>
+
+        <div id="phone-stage">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-[#00a884] mb-2">Your Phone Number</label>
+            <div class="flex gap-2 mb-4">
+                <span class="bg-[#2a3942] border border-[#374248] text-white px-3 py-3 rounded text-base flex items-center">+91</span>
+                <input type="tel" id="phone-number" placeholder="Enter 10 digit number" class="w-full bg-[#2a3942] border border-[#374248] text-white px-4 py-3 rounded text-base focus:outline-none focus:border-[#00a884] transition">
+            </div>
+            <button id="btn-phone-next" class="w-full whatsapp-green hover:bg-[#008f72] text-[#111b21] font-bold py-3 px-4 rounded text-base transition duration-200 shadow-md">
+                Next <i class="fa-solid fa-arrow-right ml-1 text-sm"></i>
+            </button>
+        </div>
+
+        <div id="otp-stage" class="hidden">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-[#00a884] mb-2">6-Digit Security PIN</label>
+            <input type="password" id="otp-code" placeholder="Enter Security PIN" maxlength="6" class="w-full bg-[#2a3942] border border-[#374248] text-white px-4 py-3 rounded text-base text-center tracking-widest focus:outline-none focus:border-[#00a884] transition mb-4">
+            <button id="btn-verify-pin" class="w-full bg-[#00a884] hover:bg-[#008f72] text-[#111b21] font-bold py-3 px-4 rounded text-base transition duration-200 shadow-md">
+                Verify & Login <i class="fa-solid fa-circle-check ml-1 text-sm"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="profile-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+        <div class="bg-[#222e35] border border-[#374248] w-full max-w-sm rounded-xl p-6 shadow-2xl">
+            <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-user-gear text-[#00a884]"></i> Set Up Your Profile
+            </h3>
+            <p class="text-xs text-[#8696a0] mb-4">This name will be visible to your chat partners.</p>
+            <input type="text" id="profile-name-input" placeholder="Enter Your Name" class="w-full bg-[#2a3942] border border-[#374248] text-white px-4 py-3 rounded-lg text-base focus:outline-none focus:border-[#00a884] transition mb-4">
+            <button id="btn-save-profile" class="w-full whatsapp-green hover:bg-[#008f72] text-[#111b21] font-bold py-3 rounded-lg transition shadow-md">
+                Save & Open Chats
+            </button>
+        </div>
+    </div>
+
+    <div id="edit-profile-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div class="bg-[#222e35] border border-[#374248] w-full max-w-md rounded-xl p-6 shadow-2xl relative text-white max-h-[90vh] overflow-y-auto">
+            <button id="btn-close-profile-modal" class="absolute top-4 right-4 text-[#8696a0] hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-[#00a884]"></i> Settings & Customization
+            </h3>
+            
+            <div class="flex flex-col items-center gap-2 mb-4">
+                <div class="relative group cursor-pointer" id="dp-upload-trigger">
+                    <div id="modal-dp-preview" class="w-20 h-20 rounded-full bg-[#111b21] border-2 border-[#00a884] overflow-hidden flex items-center justify-center text-2xl font-bold text-[#00a884] uppercase bg-cover bg-center">
+                        ?
+                    </div>
+                    <div class="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-200">
+                        <i class="fa-solid fa-camera text-white text-lg"></i>
+                    </div>
+                </div>
+                <input type="file" id="profile-dp-file-input" accept="image/*" class="hidden">
+                <span class="text-xs text-[#8696a0]">Tap to change profile avatar</span>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-xs font-semibold text-[#8696a0] mb-1.5 uppercase tracking-wide">Display Name</label>
+                <input type="text" id="edit-profile-name-input" class="w-full bg-[#2a3942] border border-[#374248] text-white px-4 py-2 rounded-lg text-base focus:outline-none focus:border-[#00a884] transition">
+            </div>
+
+            <hr class="border-[#374248] my-4">
+
+            <div class="mb-4">
+                <label class="block text-xs font-semibold text-[#8696a0] mb-2 uppercase tracking-wide">Select App Interface Theme</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="theme-select-btn bg-[#111b21] text-xs font-medium py-2 px-3 rounded-lg border border-gray-600 text-left flex items-center gap-2" data-theme="dark-mode">
+                        <span class="w-3 h-3 rounded-full bg-[#222e35] inline-block border"></span> Original Dark
+                    </button>
+                    <button class="theme-select-btn bg-[#f0f2f5] text-slate-800 text-xs font-medium py-2 px-3 rounded-lg border border-gray-300 text-left flex items-center gap-2" data-theme="day-mode">
+                        <span class="w-3 h-3 rounded-full bg-[#ffffff] inline-block border"></span> Premium White
+                    </button>
+                    <button class="theme-select-btn bg-[#0f172a] text-xs font-medium py-2 px-3 rounded-lg border border-blue-900 text-left flex items-center gap-2" data-theme="blue-mode">
+                        <span class="w-3 h-3 rounded-full bg-[#1e293b] inline-block border"></span> Royal Blue
+                    </button>
+                    <button class="theme-select-btn bg-[#052e16] text-xs font-medium py-2 px-3 rounded-lg border border-green-900 text-left flex items-center gap-2" data-theme="green-mode">
+                        <span class="w-3 h-3 rounded-full bg-[#14532d] inline-block border"></span> WhatsApp Green
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-5 bg-[#2a3942]/50 p-3 rounded-lg border border-[#374248]">
+                <label class="block text-xs font-semibold text-[#8696a0] mb-1 uppercase tracking-wide">Chat Box Wallpaper (From Gallery)</label>
+                <p class="text-[11px] text-[#8696a0] mb-2.5">Apne gallery se koi bhi photo lagayein chat background me.</p>
+                
+                <div class="flex gap-2">
+                    <input type="file" id="custom-wallpaper-input" accept="image/*" class="hidden">
+                    <button id="btn-trigger-wallpaper" class="flex-1 bg-[#374248] hover:bg-[#4f5d64] text-white text-xs font-bold py-2 px-3 rounded-lg transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-images text-[#00a884]"></i> Choose From Gallery
+                    </button>
+                    <button id="btn-remove-wallpaper" class="bg-red-950 hover:bg-red-900 text-red-200 text-xs font-bold py-2 px-3 rounded-lg transition hidden">
+                        <i class="fa-solid fa-trash-can"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <button id="btn-update-profile" class="w-full whatsapp-green hover:bg-[#008f72] text-[#111b21] font-bold py-2.5 rounded-lg transition shadow-md flex items-center justify-center gap-2">
+                <i class="fa-solid fa-floppy-disk"></i> Save All Changes
+            </button>
+        </div>
+    </div>
+
+    <div id="status-viewer-modal" class="hidden fixed inset-0 bg-black z-50 flex flex-col justify-between">
+        <div class="absolute top-2 left-2 right-2 flex gap-1 z-20">
+            <div id="status-progress-bar" class="h-1 bg-[#00a884] w-0 transition-all duration-[5000ms] linear rounded"></div>
+        </div>
+        <div class="flex items-center justify-between text-white z-10 w-full bg-gradient-to-b from-black/80 to-transparent p-4 absolute top-0 left-0 pt-5">
+            <div class="flex items-center gap-3">
+                <div id="viewer-status-avatar" class="w-10 h-10 rounded-full bg-[#00a884] bg-cover bg-center border border-gray-600"></div>
+                <div>
+                    <h4 id="viewer-status-username" class="font-bold text-sm">Username</h4>
+                    <p id="viewer-status-time" class="text-xs text-gray-300">Active Log</p>
+                </div>
+            </div>
+            <button id="btn-close-status-viewer" class="text-white text-2xl p-2 hover:text-gray-300 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div id="status-media-content-holder" class="w-full h-full flex items-center justify-center p-2 bg-black select-none"></div>
+    </div>
+
+    <div id="chat-container" class="hidden w-full h-full flex z-10 overflow-hidden">
+        
+        <div id="sidebar-panel" class="w-full md:w-[35%] bg-sidebar border-r border-custom flex flex-col h-full z-20">
+            <div class="bg-panel-header h-[60px] p-4 flex items-center justify-between shadow-sm flex-shrink-0">
+                <div class="flex items-center gap-3 cursor-pointer p-1 rounded hover:bg-input-field transition" id="my-profile-header-trigger">
+                    <div class="w-10 h-10 rounded-full bg-[#00a884] text-[#111b21] font-bold flex items-center justify-center text-lg uppercase shadow bg-cover bg-center" id="user-avatar">?</div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-sm text-main flex items-center gap-1" id="user-display-name">
+                            Loading... <i class="fa-solid fa-gear text-[10px] text-sub"></i>
+                        </span>
+                        <span class="text-[11px] text-sub" id="user-phone">Loading...</span>
+                    </div>
+                </div>
+                <button id="btn-logout" class="text-sub hover:text-[#ea0038] text-lg transition p-2">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+
+            <div class="flex bg-panel-header border-b border-custom text-center text-sm font-semibold select-none flex-shrink-0">
+                <button id="tab-chats-btn" class="flex-1 py-3 text-[#00a884] border-b-2 border-[#00a884] uppercase tracking-wide transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-message"></i> Chats
+                </button>
+                <button id="tab-status-btn" class="flex-1 py-3 text-sub border-b-2 border-transparent uppercase tracking-wide transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-notch"></i> Status
+                </button>
+            </div>
+            
+            <div id="chats-tab-content" class="hidden md:flex flex-1 flex flex-col overflow-hidden">
+                <div class="p-2.5 bg-sidebar flex-shrink-0">
+                    <span class="text-[11px] font-bold tracking-wider text-sub uppercase block pl-1">Active Chat Logs (Hold to Delete)</span>
+                </div>
+                <div id="users-list-box" class="flex-1 overflow-y-auto divide-y divide-custom user-select-none">
+                    <div class="p-4 text-center text-sm text-sub">Searching secure directory logs...</div>
+                </div>
+            </div>
+
+            <div id="status-tab-content" class="hidden flex-1 flex flex-col overflow-hidden">
+                <div class="p-4 flex items-center justify-between border-b border-custom bg-panel-header/30">
+                    <div class="flex items-center gap-3">
+                        <div id="my-status-avatar-preview" class="w-12 h-12 rounded-full bg-gray-500 bg-cover bg-center flex items-center justify-center text-white text-lg font-bold uppercase">?</div>
+                        <div>
+                            <h4 class="font-bold text-main text-sm">My Status</h4>
+                            <p class="text-xs text-sub">Supports up to 10MB Photos!</p>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="file" id="status-media-file-input" accept="image/*,video/mp4" class="hidden">
+                        <button id="btn-trigger-status-upload" class="w-10 h-10 whatsapp-green text-[#111b21] rounded-full flex items-center justify-center text-lg shadow hover:opacity-90 transform active:scale-95 transition">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-2.5 bg-sidebar flex-shrink-0">
+                    <span class="text-[11px] font-bold tracking-wider text-sub uppercase block pl-1">Recent Updates (Expires in 24h)</span>
+                </div>
+
+                <div id="status-stream-list-box" class="flex-1 overflow-y-auto divide-y divide-custom">
+                    <div class="p-4 text-center text-sm text-sub">No stories logged in the last 24 hours.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chat-panel" class="hidden md:flex flex-1 flex-col h-full bg-chat-area relative z-10 overflow-hidden">
+            <div class="chat-bg" id="chat-wallpaper-canvas"></div>
+            
+            <div class="bg-panel-header h-[60px] p-4 flex items-center justify-between border-b border-custom z-10 shadow-md flex-shrink-0"
