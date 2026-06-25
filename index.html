@@ -32,6 +32,7 @@
 </head>
 <body class="flex items-center justify-center fixed inset-0">
 
+    <!-- LOGIN BOX -->
     <div id="auth-container" class="w-full max-w-md p-6 bg-[#222e35] rounded-lg shadow-2xl border border-[#374248] z-10 m-4">
         <div class="text-center mb-6">
             <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-3 border border-yellow-600 overflow-hidden">
@@ -62,7 +63,9 @@
         </div>
     </div>
 
+    <!-- MAIN CHAT SCREEN -->
     <div id="chat-container" class="hidden w-full h-full flex z-10 overflow-hidden">
+        <!-- Sidebar Contacts -->
         <div id="sidebar-panel" class="w-full md:w-[35%] bg-[#111b21] border-r border-[#222e35] flex flex-col h-full z-20">
             <div class="bg-[#202c33] h-[60px] p-4 flex items-center justify-between shadow-sm flex-shrink-0">
                 <div class="flex items-center gap-2">
@@ -75,6 +78,7 @@
             <div id="users-list-box" class="flex-1 overflow-y-auto divide-y divide-[#222e35]"></div>
         </div>
 
+        <!-- Chat Panel -->
         <div id="chat-panel" class="hidden md:flex flex-1 flex-col h-full bg-[#222e35] relative z-10 overflow-hidden">
             <div class="chat-bg"></div>
             <div class="bg-[#202c33] h-[60px] p-4 flex items-center justify-between border-b border-[#222e35] z-10 flex-shrink-0">
@@ -96,9 +100,10 @@
         </div>
     </div>
 
+    <!-- FIREBASE AND SYSTEM CORE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyAHazZpA2srlEclDKE0qWrDuj7-ULVWnLg",
@@ -189,5 +194,5 @@
         if(window.activeUserPhone) { window.startPrivateSystem(); }
     </script>
 </body>
-                </html>
-                        
+    </html>
+            
